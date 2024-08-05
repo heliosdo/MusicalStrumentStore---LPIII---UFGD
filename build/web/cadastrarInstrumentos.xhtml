@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+    <ui:define name="conteudo">
+        <h2>Cadastrar Instrumentos</h2>
+        <p:panel header="Instrumentos Cadastrados" styleClass="container">
+            <p:outputPanel id="instrumento">
+                <p:dataTable id="dataTable" var="instrumento"
+                             value="#{instrumentoBean.all}"
+                             widgetVar="tabelaInstrumentos"
+                             emptyMessage="Nenhum registro encontrado">
+                    <p:column filterBy="tipoInstrumento"
+                            headerText="Tipo"
+                            footerText="exact"
+                            filterOptions="#{instrumentoBean.getTipoInstrumento(true)}"
+                            filterMatchMode="exact">
+                        <h:outputText value="#{instrumento.tipoInstrumento}" />
+                    </p:column> 
+                    <p:column headerText="Fabricante" filterBy="fabricante" footerText="startsWith">
+                        <h:outputText value="#{instrumento.fabricante}" />
+                    </p:column>
+                    <p:column headerText="Modelo" filterBy="modelo" footerText="startsWith">
+                        <h:outputText value="#{instrumento.modelo}" />
+                    </p:column>
+                    <p:column headerText="Preço">
+                        <h:outputText value="#{instrumento.preco}" />
+                    </p:column>
+                
+                    <p:column headerText="Profissional">
+                        <h:outputText value="#{instrumento.tipoProfissional ? 'Profissional' : 'Amador'}" />
+                    </p:column>
+                    
+                    <p:column headerText="Ação">
+                        <p:commandButton value="Consultar"
+                                         actionListener="#{instrumentoBean.consultar(instrumento)}"
+                                         oncomplete="panelInstrumento.show();"
+                                         update=":form:displayInstrumento" />
+                    </p:column>
+                </p:dataTable>
+                <p:panel>
+                    <p:commandButton value="Cadastrar"
+                                     actionListener="#{instrumentoBean.inserir()}"
+                                     oncomplete="panelInstrumento.show();"
+                                     update=":form:displayInstrumento" />
+                </p:panel>
+            </p:outputPanel>
+        </p:panel>
+        <p:panel header="Dados do Instrumento" id="dadosInstrumento" widgetVar="panelInstrumento"
+                 visible="false" closable="true" style="margin-top:20px;">
+            <p:messages id="erroInstrumento" />
+            <h:panelGrid id="displayInstrumento" columns="1" styleClass="grid">
+                <p:panel>
+                    <h:panelGrid columns="3" columnClasses="label, value" styleClass="grid">
+                        
+                        <h:outputLabel for="tipoInstrumentoSelectOneMenu" value="Tipo Instrumento *"/>
+                        <p:selectOneMenu id="tipoInstrumentoSelectOneMenu" value="#{instrumentoBean.value.tipoInstrumento}" required="false" label="Tipo Instrumento" style="width:100px">
+                            <f:selectItems value="#{instrumentoBean.getTipoInstrumento(true)}" />
+                            </p:selectOneMenu>
+                        <p:message for="tipoInstrumentoSelectOneMenu"/>
+                        
+                        <h:outputText value="Fabricante *" />
+                        <p:inputText id="fabricanteInputText" required="false" label="Fabricante"
+                                     value="#{instrumentoBean.value.fabricante}" styleClass="ipt-large" />
+                        <p:message for="fabricanteInputText" />
+                        <h:outputText value="Modelo *" />
+                        <p:inputText id="modeloInputText" required="false" label="Modelo"
+                                     value="#{instrumentoBean.value.modelo}" styleClass="ipt-large" />
+                        <p:message for="modeloInputText" />
+                        
+
+                        
+                        <h:outputText value="Preço: *" />
+                        <p:inputText id="precoInputText" required="false" label="Preço"
+                                     value="#{instrumentoBean.value.preco}" styleClass="ipt-large">
+                            <f:convertNumber pattern="#,##0.00" />
+                        </p:inputText>
+                        <p:message for="precoInputText" />
+                        <h:outputText value="Profissional: *" />
+                        <p:selectBooleanCheckbox id="tipoCheckbox"
+                                                 value="#{instrumentoBean.tipoProfissional}" />
+                    </h:panelGrid>
+                </p:panel>
+                <h:panelGroup>
+                    <p:commandButton value="Inserir" action="#{instrumentoBean.save()}"
+                                     ajax="false" icon="ui-icon-circle-plus" />
+                    <p:commandButton value="Alterar" action="#{instrumentoBean.update()}"
+                                     ajax="false" icon="ui-icon-pencil" />
+                    <p:commandButton value="Remover" action="#{instrumentoBean.delete()}"
+                                     ajax="false" icon="ui-icon-trash" />
+                </h:panelGroup>
+            </h:panelGrid>
+        </p:panel>
+    </ui:define>
+</ui:composition>

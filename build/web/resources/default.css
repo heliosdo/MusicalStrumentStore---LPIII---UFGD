@@ -1,0 +1,34 @@
+/* Estilos para o corpo da página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos para o título */
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Estilos para o painel de diretores */
+.p-panel {
+    margin-bottom: 20px;
+}
+
+/* Estilos para a tabela */
+.ui-datatable {
+    width: 100%;
+}
+
+/* Estilos para os botões */
+.p-commandButton {
+    margin-right: 10px;
+}
+
+/* Estilos para mensagens de erro */
+.p-messages {
+    color: red;
+    margin-bottom: 10px;
+}

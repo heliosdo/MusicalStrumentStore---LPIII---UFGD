@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="conteudo">
+            <h2>Cadastrar Diretores</h2>
+            <p:panel header="Diretores Cadastrados">
+                <h:form>
+                    <p:outputPanel id="diretor">
+                        <p:dataTable id="dataTable" var="diretor"
+                                     value="#{diretorBean.all}"
+                                     filteredValue="#{diretorBean.diretoresFiltrados}"
+                                     widgetVar="tabelaDiretores"
+                                     emptyMessage="Nenhum registro encontrado">
+                            <p:column headerText="Nome" filterBy="#{diretor.nome}" filterMatchMode="startsWith">
+                                <h:outputText value="#{diretor.nome}"/>
+                            </p:column>
+                            <p:column headerText="Ganhador de Oscar">
+                                <h:outputText value="#{diretor.totalOscars}"/>
+                            </p:column>
+                            <p:column headerText="Ação">
+                                <p:commandButton value="Consultar"
+                                                 actionListener="#{diretorBean.consultarDiretor(diretor)}"
+                                                 oncomplete="panelDiretor.show();"
+                                                 update=":dadosDiretor"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+                </h:form>
+                <p:panel>
+                    <p:commandButton value="Cadastrar"
+                                     actionListener="#{diretorBean.inserir}"
+                                     oncomplete="panelDiretor.show();"
+                                     update="dadosDiretor"/>
+                </p:panel>
+            </p:panel>
+            <p:panel header="Dados do Diretor" id="dadosDiretor" widgetVar="panelDiretor"
+                     visible="false" closable="true" style="margin-top:10px;">
+                <p:messages id="erroFilme" showDetail="true"/>
+                <h:form>
+                    <h:panelGrid id="displayDiretor" columns="1" styleClass="grid">
+                        <p:panel>
+                            <h:panelGrid columns="3" columnClasses="label, value" styleClass="grid">
+                                <h:outputText value="Nome *"/>
+                                <p:inputText id="nomeInputText"
+                                             required="false"
+                                             label="Nome"
+                                             value="#{diretorBean.value.nome}"
+                                             styleClass="ipt-large"/>
+                                <p:messages for="nomeInputText"/>
+                                <h:outputText value="Ganhador de Oscar *"/>
+                                <p:inputText id="ganhadorOscarInputText"
+                                             required="false"
+                                             label="Ganhador Oscar"
+                                             value="#{diretorBean.value.totalOscars}"
+                                             styleClass="ipt-large"/>
+                                <p:messages for="ganhadorOscarInputText"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:panelGrid>
+                    <h:panelGroup rendered="#{not diretorBean.consultar}">
+                        <p:commandButton value="Inserir" action="#{diretorBean.save()}"
+                                         ajax="false" icon="ui-icon-circle-plus"/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{diretorBean.consultar}">
+                        <!-- Grupo para os comandos Alterar e Remover -->
+                        <p:commandButton value="Alterar" action="#{diretorBean.update()}"
+                                         ajax="false" icon="ui-icon-pencil"/>
+                        <p:commandButton value="Remover" action="#{diretorBean.delete()}"
+                                         ajax="false" icon="ui-icon-trash"/>
+                    </h:panelGroup>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>

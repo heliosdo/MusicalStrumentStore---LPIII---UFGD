@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="conteudo">
+            <h2>Cadastrar Atores</h2>
+            <p:panel header="Atores Cadastrados">
+                <h:form>
+                    <p:outputPanel id="ator">
+                        <p:dataTable id="dataTable" var="ator"
+                                     value="#{atorBean.all}"
+                                     filteredValue="#{atorBean.atoresFiltrados}"
+                                     widgetVar="tabelaAtores"
+                                     emptyMessage="Nenhum registro encontrado">
+                            <p:column headerText="Nome" filterBy="#{ator.nome}" filterMatchMode="startsWith">
+                                <h:outputText value="#{ator.nome}"/>
+                            </p:column>
+                            <p:column headerText="Total Oscars">
+                                <h:outputText value="#{ator.totalOscars}"/>
+                            </p:column>
+                            <p:column headerText="Ação">
+                                <p:commandButton value="Consultar"
+                                                 actionListener="#{atorBean.consultarAtor(ator)}"
+                                                 oncomplete="panelAtor.show();"
+                                                 update=":dadosAtor"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+                </h:form>
+                <p:panel>
+                    <p:commandButton value="Cadastrar"
+                                     actionListener="#{atorBean.inserir}"
+                                     oncomplete="panelAtor.show();"
+                                     update="dadosAtor"/>
+                </p:panel>
+            </p:panel>
+            <p:panel header="Dados do Ator" id="dadosAtor" widgetVar="panelAtor"
+                     visible="false" closable="true" style="margin-top:10px;">
+                <p:messages id="erroAtor" showDetail="true"/>
+                <h:form>
+                    <h:panelGrid id="displayAtor" columns="1" styleClass="grid">
+                        <p:panel>
+                            <h:panelGrid columns="3" columnClasses="label, value" styleClass="grid">
+                                <h:outputText value="Nome *"/>
+                                <p:inputText id="nomeInputText"
+                                             required="false"
+                                             label="Nome"
+                                             value="#{atorBean.value.nome}"
+                                             styleClass="ipt-large"/>
+                                <p:messages for="nomeInputText"/>
+                                <h:outputText value="Quantidade de Oscar"/>
+                                <p:inputText id="totalOscars"
+                                             value="#{atorBean.value.totalOscars}"/>
+                                <p:message for="totalOscars"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:panelGrid>
+                    <h:panelGroup rendered="#{not atorBean.consultar}">
+                        <p:commandButton value="Inserir" action="#{atorBean.save()}"
+                                         ajax="false" icon="ui-icon-circle-plus"/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{atorBean.consultar}">
+                        <!-- Grupo para os comandos Alterar e Remover -->
+                        <p:commandButton value="Alterar" action="#{atorBean.update()}"
+                                         ajax="false" icon="ui-icon-pencil"/>
+                        <p:commandButton value="Remover" action="#{atorBean.delete()}"
+                                         ajax="false" icon="ui-icon-trash"/>
+                    </h:panelGroup>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Loja de Instrumentos Musicais</title>
+            </f:facet>
+            <h:outputStylesheet name="default.css" library="css"/>
+            <h:outputStylesheet name="overrides.css" library="css"/>
+        </h:head>
+        <h:body>
+            <div style="margin: 0 auto;"> 
+                <h:form id="form"> 
+                    <p:layout fullPage="true" style="text-align:left; min-width:1020px; max-width:1020px; min-height:600px">
+                        <p:layoutUnit position="north"  style="text-align:center;">
+                            <h1>Loja de Instrumentos Musicais</h1> 
+                        </p:layoutUnit>
+                        <p:layoutUnit position="south" style="text-align:center;">
+                            <br/><strong>Musical Instrument Store&copy;</strong> 
+                        </p:layoutUnit>
+                        <p:layoutUnit position="west" size="186"> 
+                            <p:menu> 
+                                <p:menuitem value="Pagina Inicial" url="/index.jsf"></p:menuitem> 
+                            </p:menu> 
+                            <p:menu> 
+                                <p:submenu label="Clientes"> 
+                                    <p:menuitem value="Cadastrar Clientes" url="/cadastrarClientes.jsf"/> 
+                                </p:submenu> 
+                                <p:submenu label="Instrumentos"> 
+                                    <p:menuitem value="Cadastrar Instrumentos" url="/cadastrarInstrumentos.jsf"/> 
+                                </p:submenu> 
+                                <p:submenu label="Vendas"> 
+                                    <p:menuitem value="Realizar Vendas" url="/cadastrarVendas.jsf"/> 
+                                </p:submenu> 
+                            </p:menu> 
+                        </p:layoutUnit>
+                        <p:layoutUnit position="center" style="padding: 10px;"> 
+                            <ui:insert name="conteudo"></ui:insert> 
+                        </p:layoutUnit>
+                    </p:layout>            
+                </h:form>
+            </div>
+        </h:body>
+    </f:view>
+</html>
